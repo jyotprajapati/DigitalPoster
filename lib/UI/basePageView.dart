@@ -2,7 +2,9 @@ import 'package:dposter/UI/signInView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
+import 'exploreView.dart';
 import 'homePageView.dart';
+import 'primiumView.dart';
 
 class BasePageView extends StatefulWidget {
   const BasePageView({super.key});
@@ -13,56 +15,32 @@ class BasePageView extends StatefulWidget {
 
 class _BasePageViewState extends State<BasePageView> {
   int _currntIndex = 0;
-  List _currentScreen = [HomePageView()];
+  List _currentScreen = [HomePageView(), ExploreView(), PrimiumView()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _currentScreen[_currntIndex],
-      bottomNavigationBar:
-          // SnakeNavigationBar.color(
-          //   // behaviour: snakeBarStyle,
-          //   // snakeShape: snakeShape,
-          //   // shape: bottomBarShape,
-          //   // padding: ,
-
-          //   ///configuration for SnakeNavigationBar.color
-          //   snakeViewColor: Colors.white,
-          //   selectedItemColor: Colors.black,
-          //   // snakeShape == SnakeShape.indicator ? selectedColor : null,
-          //   unselectedItemColor: Colors.blueGrey,
-
-          //   ///configuration for SnakeNavigationBar.gradient
-          //   //snakeViewGradient: selectedGradient,
-          //   //selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
-          //   //unselectedItemGradient: unselectedGradient,
-
-          //   // showUnselectedLabels: showUnselectedLabels,
-          //   // showSelectedLabels: showSelectedLabels,
-
-          //   currentIndex: _currntIndex,
-          //   onTap: (index) {},
-          //   items: [
-          //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home', ),
-          //   ],
-          // ),
-          BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(Icons.explore),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.workspace_premium),
             label: '',
           ),
         ],
         currentIndex: _currntIndex,
         selectedItemColor: Colors.blue[800],
-        onTap: (int i) {},
+        onTap: (int i) {
+          _currntIndex = i;
+          setState(() {});
+        },
       ),
     );
   }
