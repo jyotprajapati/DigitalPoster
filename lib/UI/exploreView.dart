@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Widgets/backgoundWidget.dart';
+import '../Widgets/popUpMenuWidget.dart';
 
 class ExploreView extends StatefulWidget {
   const ExploreView({super.key});
@@ -17,11 +18,9 @@ class _ExploreViewState extends State<ExploreView> {
         BackgroundWidget().homeBackgroundWidget(context),
         Scaffold(
           backgroundColor: Colors.transparent,
-          drawer: const Drawer(
-            elevation: 50,
-            shadowColor: Colors.black,
-          ),
+         
           appBar: AppBar(
+             leading: PopUpMenu().popupMenu(context: context),
             toolbarHeight: 38,
             elevation: 0,
             backgroundColor: const Color(0xFFD9D9D9),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Widgets/backgoundWidget.dart';
+import '../Widgets/popUpMenuWidget.dart';
 
 class PrimiumView extends StatelessWidget {
   const PrimiumView({super.key});
@@ -12,11 +13,9 @@ class PrimiumView extends StatelessWidget {
         BackgroundWidget().homeBackgroundWidget(context),
         Scaffold(
           backgroundColor: Colors.transparent,
-          drawer: const Drawer(
-            elevation: 50,
-            shadowColor: Colors.black,
-          ),
+         
           appBar: AppBar(
+             leading: PopUpMenu().popupMenu(context: context),
             toolbarHeight: 38,
             elevation: 0,
             backgroundColor: const Color(0xFFD9D9D9),

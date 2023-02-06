@@ -1,6 +1,13 @@
+import 'package:dposter/UI/myBusinessView.dart';
+import 'package:dposter/UI/myPostView.dart';
+import 'package:dposter/UI/privacyPolicyView.dart';
+import 'package:dposter/UI/rateUsView.dart';
+import 'package:dposter/UI/shareUsView.dart';
+import 'package:dposter/UI/term&conditionView.dart';
 import 'package:flutter/material.dart';
 
 import '../Widgets/backgoundWidget.dart';
+import '../Widgets/popUpMenuWidget.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -10,6 +17,7 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
+  final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -17,11 +25,8 @@ class _HomePageViewState extends State<HomePageView> {
         BackgroundWidget().homeBackgroundWidget(context),
         Scaffold(
           backgroundColor: Colors.transparent,
-          drawer: const Drawer(
-            elevation: 50,
-            shadowColor: Colors.black,
-          ),
           appBar: AppBar(
+            leading: PopUpMenu().popupMenu(context: context),
             toolbarHeight: 38,
             elevation: 0,
             backgroundColor: const Color(0xFFD9D9D9),

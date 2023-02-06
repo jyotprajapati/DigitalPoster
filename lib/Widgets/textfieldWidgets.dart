@@ -29,6 +29,37 @@ class TextfieldWidgets {
           ),
         ));
   }
+
+  Widget businessTextfieldWidgets({String? labelText}) {
+    return Container(
+        padding: const EdgeInsets.all(4),
+        height: 60,
+        child: TextFormField(
+          style: TextStyle(color: Color(0xFF655E5E)),
+          decoration: InputDecoration(
+            isDense: true,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(color: Colors.white)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(color: Colors.white)),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide(color: Colors.white)),
+            filled: true,
+            fillColor: Colors.white,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            labelStyle: const TextStyle(
+              color: Color(0xFF655E5E),
+              fontSize: 16,
+            ),
+            labelText: labelText ?? "",
+          ),
+        ));
+  }
 }
 
 class CustomBoxShadow extends BoxShadow {
