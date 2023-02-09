@@ -1,11 +1,29 @@
 import 'package:flutter/material.dart';
 
 class TextfieldWidgets {
-  Widget textfieldWidgets({String? labelText}) {
+  Widget textfieldWidgets(
+      {String? labelText,
+      var validator,
+      TextInputType? keyboardType,
+      bool? password,
+      TextEditingController? controller}) {
     return Container(
         padding: const EdgeInsets.all(4),
-        child: TextField(
+        child: TextFormField(
+          controller: controller,
           style: TextStyle(color: Colors.white),
+          keyboardType:
+              keyboardType != null ? keyboardType : TextInputType.name,
+          validator: validator,
+          obscureText: password ?? false,
+          //  (value) {
+          //   if (value == null || value.isEmpty) {
+          //     return 'Please enter your user name.';
+          //   } else if (value.contains('@')) {
+          //     return 'Please don\'t use the @ char.';
+          //   }
+          //   return null;
+          // },
           decoration: InputDecoration(
             isDense: true,
             contentPadding:
@@ -30,11 +48,19 @@ class TextfieldWidgets {
         ));
   }
 
-  Widget businessTextfieldWidgets({String? labelText}) {
+  Widget businessTextfieldWidgets({
+    String? labelText,
+    var validator,
+    TextEditingController? controller,
+    TextInputType? keyboardType,
+  }) {
     return Container(
-        padding: const EdgeInsets.all(4),
-        height: 60,
+        padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+        height: 50,
         child: TextFormField(
+          keyboardType: keyboardType ?? TextInputType.name,
+          controller: controller,
+          validator: validator,
           style: TextStyle(color: Color(0xFF655E5E)),
           decoration: InputDecoration(
             isDense: true,
