@@ -38,6 +38,7 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   flutter_snake_navigationbar: ^0.6.1
   http:
+  draggable_widget: ^2.0.0
 
 dev_dependencies:
   flutter_test:

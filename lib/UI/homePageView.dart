@@ -1,5 +1,6 @@
 import 'package:dposter/UI/myBusinessView.dart';
 import 'package:dposter/UI/myPostView.dart';
+import 'package:dposter/UI/posterPreview.dart';
 import 'package:dposter/UI/privacyPolicyView.dart';
 import 'package:dposter/UI/rateUsView.dart';
 import 'package:dposter/UI/shareUsView.dart';
@@ -110,19 +111,30 @@ class _HomePageViewState extends State<HomePageView> {
                         // scrollDirection: Axis.horizontal,
                         children: [
                           for (int i = 0; i < 2; i++)
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 8),
-                              child: Container(
-                                height: 130,
-                                width: 110,
-                                decoration: BoxDecoration(
-                                    color: const Color(0xFFD9D9D9),
-                                    border: Border.all(
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PosterPreview(),
+                                    ));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 8),
+                                child: Container(
+                                  height: 110,
+                                  width: 110,
+                                  child: Image.network(
+                                      "https://img.freepik.com/free-vector/creative-diwali-festival-poster-design-background_1017-15917.jpg?w=740&t=st=1676607258~exp=1676607858~hmac=976c8522d984352709b67a017f6818a2bd38729e4b795358977088831e2d4abf"),
+                                  decoration: BoxDecoration(
                                       color: const Color(0xFFD9D9D9),
-                                    ),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(12))),
+                                      border: Border.all(
+                                        color: const Color(0xFFD9D9D9),
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(12))),
+                                ),
                               ),
                             ),
                         ],
