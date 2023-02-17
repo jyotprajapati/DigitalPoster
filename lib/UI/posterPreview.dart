@@ -11,7 +11,9 @@ class PosterPreview extends StatefulWidget {
 class _PosterPreviewState extends State<PosterPreview> {
   final dragController = DragController();
   Map<String, double> posLogo = {'top': 8, 'left': 8};
+  Map<String, double> posEmail = {'top': 310, 'left': 150};
   bool isDrag = false;
+  bool isEmailDraged = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,11 +87,73 @@ class _PosterPreviewState extends State<PosterPreview> {
                             child: Image.asset("assets/logo.png")),
                       ),
               ),
+            ),
+            AnimatedPositioned(
+              top: posEmail['top'],
+              left: posEmail['left'],
+              duration: Duration(milliseconds: isDrag ? 0 : 300),
+              child: Draggable(
+                // initialPosition: AnchoringPosition.bottomLeft,
+                // dragController: dragController,
+                onDragStarted: () {
+                  setState(() {
+                    isEmailDraged = true;
+                  });
+                },
+                onDragUpdate: (details) {
+                  setState(() {
+                    print(details.delta.dx);
+                    print(details.delta.dy);
+                    posEmail = {
+                      'left': posEmail['left']! + details.delta.dx,
+                      'top': posEmail['top']! + details.delta.dy,
+                    };
+                  });
+                },
+                onDragEnd: (details) {
+                  double width = MediaQuery.of(context).size.width;
+                  double height = MediaQuery.of(context).size.width;
+
+                  setState(() {
+                    isEmailDraged = false;
+                    posEmail = {
+                      'left': posEmail['left']!,
+                      // < (width - (150 / 2) - (12 * 2)) / 2
+                      //     ? 12
+                      //     : width - 110 - 12,
+                      'top': posEmail['top']!
+                      // < (height - (150 / 2) - (12 * 2)) / 2
+                      //     ? 12
+                      //     : height - 12,
+                    };
+                  });
+                },
+                childWhenDragging: Container(),
+
+                feedback: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Material(
+                    child: Container(
+                        child: Text(
+                      "Email : trial.email@gmail.com",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    )),
+                  ),
+                ),
+                child: isEmailDraged
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Container(
+                            child: Text(
+                          "Email : trial.email@gmail.com",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 12),
+                        )),
+                      ),
+              ),
             )
-            // Align(
-            //     heightFactor: 110,
-            //     alignment: Alignment.bottomRight,
-            //     child: Text("Email: raj.patel@gmail.com"))
           ],
         ),
       ),
