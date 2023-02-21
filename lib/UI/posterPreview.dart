@@ -11,7 +11,7 @@ class PosterPreview extends StatefulWidget {
 class _PosterPreviewState extends State<PosterPreview> {
   final dragController = DragController();
   Map<String, double> posLogo = {'top': 8, 'left': 8};
-  Map<String, double> posEmail = {'top': 310, 'left': 150};
+  Map<String, double> posEmail = {'top': 310, 'left': 190};
   bool isDrag = false;
   bool isEmailDraged = false;
   @override
@@ -135,7 +135,7 @@ class _PosterPreviewState extends State<PosterPreview> {
                   child: Material(
                     child: Container(
                         child: Text(
-                      "Email : trial.email@gmail.com",
+                      "trial.email@gmail.com",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                     )),
@@ -147,7 +147,7 @@ class _PosterPreviewState extends State<PosterPreview> {
                         padding: const EdgeInsets.all(18.0),
                         child: Container(
                             child: Text(
-                          "Email : trial.email@gmail.com",
+                          "trial.email@gmail.com",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 12),
                         )),
