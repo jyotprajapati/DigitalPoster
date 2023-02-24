@@ -163,6 +163,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  photo_view:
+    dependency: "direct main"
+    description:
+      name: photo_view
+      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.14.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -216,6 +224,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.18"
+  text_style_editor:
+    dependency: "direct main"
+    description:
+      name: text_style_editor
+      sha256: "6e0a6086df50b84e54c38453a12cd7bb3edf5d08c94d0a5caf4329859bcd3291"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   typed_data:
     dependency: transitive
     description:
@@ -234,3 +250,4 @@ packages:
     version: "2.1.4"
 sdks:
   dart: ">=3.0.0-12.0.dev <4.0.0"
+  flutter: ">=1.6.0"
