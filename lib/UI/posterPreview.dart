@@ -21,6 +21,10 @@ class _PosterPreviewState extends State<PosterPreview> {
   int? selectedField;
   Color selectedColor = Colors.black;
   double textsize = 16;
+  int? currentTap;
+
+  bool textEditOn = false;
+  var emailAlignment = TextAlign.left;
 
   double _emailScale = 1.0;
   int? texteditControlNo;
@@ -121,7 +125,6 @@ class _PosterPreviewState extends State<PosterPreview> {
                         isDrag = true;
                       });
                     },
-
                     onDragUpdate: (details) {
                       setState(() {
                         print(details.delta.dx);
@@ -151,7 +154,6 @@ class _PosterPreviewState extends State<PosterPreview> {
                       });
                     },
                     childWhenDragging: Container(),
-
                     feedback: GestureDetector(
                       onScaleUpdate: (details) {
                         logoHeight *= details.scale;
@@ -187,8 +189,6 @@ class _PosterPreviewState extends State<PosterPreview> {
                   left: posEmail['left'],
                   duration: Duration(milliseconds: isDrag ? 0 : 300),
                   child: Draggable(
-                    // initialPosition: AnchoringPosition.bottomLeft,
-                    // dragController: dragController,
                     onDragStarted: () {
                       setState(() {
                         isEmailDraged = true;
@@ -207,7 +207,7 @@ class _PosterPreviewState extends State<PosterPreview> {
                     onDragEnd: (details) {
                       double width = MediaQuery.of(context).size.width;
                       double height = MediaQuery.of(context).size.width;
-
+                      textEditOn = true;
                       setState(() {
                         isEmailDraged = false;
                         posEmail = {
@@ -223,28 +223,29 @@ class _PosterPreviewState extends State<PosterPreview> {
                       });
                     },
                     childWhenDragging: Container(),
-
                     feedback: Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Material(
                         child: Container(
-                            child: GestureDetector(
-                          onScaleUpdate: (details) {
-                            setState(() {
-                              _emailScale = details.scale.clamp(0.010, 200.0);
-                            });
-                          },
-                          child: Transform.scale(
-                            scale: _emailScale,
-                            child: Text(
-                              "trial.email@gmail.com",
-                              style: TextStyle(
-                                  letterSpacing: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: textEditOn
+                                      ? Colors.white
+                                      : Colors.transparent,
+                                  width: 1),
                             ),
-                          ),
-                        )),
+                            child: GestureDetector(
+                              onTap: () {
+                                textEditOn = !textEditOn;
+                                setState(() {});
+                              },
+                              child: Text(
+                                "trial.email@gmail.com",
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                            )),
                       ),
                     ),
                     child: isEmailDraged
@@ -252,471 +253,536 @@ class _PosterPreviewState extends State<PosterPreview> {
                         : Padding(
                             padding: const EdgeInsets.all(18.0),
                             child: Container(
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: textEditOn
+                                          ? Colors.white
+                                          : Colors.transparent,
+                                      width: 1),
+                                ),
                                 child: GestureDetector(
-                              onScaleUpdate: (details) {
-                                setState(() {
-                                  _emailScale = details.scale.clamp(0.5, 2.0);
-                                });
-                              },
-                              child: Text(
-                                "trial.email@gmail.com",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 12),
-                              ),
-                            )),
+                                  onTap: () {
+                                    textEditOn = !textEditOn;
+
+                                    setState(() {});
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Text(
+                                      "trial.email@gmail.com",
+                                      textAlign: emailAlignment,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12),
+                                    ),
+                                  ),
+                                )),
                           ),
                   ),
                 )
               ],
             ),
             Spacer(),
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0xFFFEA500), width: 1.5),
-                          borderRadius: BorderRadius.all(Radius.circular(18))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          "Light Mode",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0xFFFEA500), width: 1.5),
-                          borderRadius: BorderRadius.all(Radius.circular(18))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          "Dark Mode",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.transparent, width: 1.5),
-                          color: Color(0xFFFEA500),
-                          borderRadius: BorderRadius.all(Radius.circular(18))),
-                      child: Text(
-                        "Light Mode",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          for (int i = 0; i < 5; i++)
-                            Padding(
-                              padding: const EdgeInsets.only(left: 6),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Color(0xFFFEA500), width: 1.5),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(0))),
-                                height: 80,
-                                child: Image.network(
-                                    "https://image.similarpng.com/very-thumbnail/2021/06/Gold-decorative-picture-frame-isolated-on-transparent-background-PNG.png"),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            // Container(
-            //   color: Color(0xFF252525),
-            //   child: Column(
-            //     children: [
-            //       SingleChildScrollView(
-            //         scrollDirection: Axis.horizontal,
-            //         child: Row(
-            //           children: [
-            //             InkWell(
-            //               onTap: () {
-            //                 texteditControlNo = 0;
-            //                 setState(() {});
-            //               },
-            //               child: Container(
-            //                 color: texteditControlNo == 0
-            //                     ? Color(0xFFFEA500)
-            //                     : Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Text(
-            //                     "Controls",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontWeight: FontWeight.w600),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //             InkWell(
-            //               onTap: () {
-            //                 texteditControlNo = 1;
-            //                 setState(() {});
-            //               },
-            //               child: Container(
-            //                 color: texteditControlNo == 1
-            //                     ? Color(0xFFFEA500)
-            //                     : Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Text(
-            //                     "Fonts",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontWeight: FontWeight.w600),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //             InkWell(
-            //               onTap: () {
-            //                 texteditControlNo = 2;
-            //                 setState(() {});
-            //               },
-            //               child: Container(
-            //                 color: texteditControlNo == 2
-            //                     ? Color(0xFFFEA500)
-            //                     : Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Text(
-            //                     "Colors",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontWeight: FontWeight.w600),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //             InkWell(
-            //               onTap: () {
-            //                 texteditControlNo = 3;
-            //                 setState(() {});
-            //               },
-            //               child: Container(
-            //                 color: texteditControlNo == 3
-            //                     ? Color(0xFFFEA500)
-            //                     : Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Text(
-            //                     "Space & opacity",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontWeight: FontWeight.w600),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //             InkWell(
-            //               onTap: () {
-            //                 texteditControlNo = 4;
-            //                 setState(() {});
-            //               },
-            //               child: Container(
-            //                 color: texteditControlNo == 4
-            //                     ? Color(0xFFFEA500)
-            //                     : Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Text(
-            //                     "Shadow",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontWeight: FontWeight.w600),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //             InkWell(
-            //               onTap: () {
-            //                 texteditControlNo = 5;
-            //                 setState(() {});
-            //               },
-            //               child: Container(
-            //                 color: texteditControlNo == 5
-            //                     ? Color(0xFFFEA500)
-            //                     : Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Text(
-            //                     "Bg",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontWeight: FontWeight.w600),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //             InkWell(
-            //               onTap: () {
-            //                 texteditControlNo = 6;
-            //                 setState(() {});
-            //               },
-            //               child: Container(
-            //                 color: texteditControlNo == 6
-            //                     ? Color(0xFFFEA500)
-            //                     : Colors.transparent,
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Text(
-            //                     "3D",
-            //                     style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontWeight: FontWeight.w600),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //       // Padding(
-            //       //   padding: const EdgeInsets.only(top: 6, bottom: 6),
-            //       //   child: Row(
-            //       //     children: [
-            //       //       SizedBox(
-            //       //         width: 8,
-            //       //       ),
-            //       //       Container(
-            //       //         decoration: BoxDecoration(
-            //       //             border:
-            //       //                 Border.all(color: Colors.white, width: 1.5),
-            //       //             borderRadius:
-            //       //                 BorderRadius.all(Radius.circular(18))),
-            //       //         padding: EdgeInsets.all(0),
-            //       //         child: Icon(
-            //       //           Icons.arrow_left_rounded,
-            //       //           color: Colors.white,
-            //       //           size: 25,
-            //       //         ),
-            //       //       ),
-            //       //       Column(
-            //       //         children: [
-            //       //           Padding(
-            //       //             padding: const EdgeInsets.all(4.0),
-            //       //             child: Container(
-            //       //               decoration: BoxDecoration(
-            //       //                   border: Border.all(
-            //       //                       color: Colors.white, width: 1.5),
-            //       //                   borderRadius:
-            //       //                       BorderRadius.all(Radius.circular(18))),
-            //       //               padding: EdgeInsets.all(0),
-            //       //               child: Icon(
-            //       //                 Icons.arrow_drop_up,
-            //       //                 color: Colors.white,
-            //       //                 size: 25,
-            //       //               ),
-            //       //             ),
-            //       //           ),
-            //       //           Padding(
-            //       //             padding: const EdgeInsets.all(4.0),
-            //       //             child: Container(
-            //       //               decoration: BoxDecoration(
-            //       //                   border: Border.all(
-            //       //                       color: Colors.white, width: 1.5),
-            //       //                   borderRadius:
-            //       //                       BorderRadius.all(Radius.circular(18))),
-            //       //               padding: EdgeInsets.all(0),
-            //       //               child: Icon(
-            //       //                 Icons.arrow_drop_down,
-            //       //                 color: Colors.white,
-            //       //                 size: 25,
-            //       //               ),
-            //       //             ),
-            //       //           ),
-            //       //         ],
-            //       //       ),
-            //       //       Container(
-            //       //         decoration: BoxDecoration(
-            //       //             border:
-            //       //                 Border.all(color: Colors.white, width: 1.5),
-            //       //             borderRadius:
-            //       //                 BorderRadius.all(Radius.circular(18))),
-            //       //         padding: EdgeInsets.all(0),
-            //       //         child: Icon(
-            //       //           Icons.arrow_right,
-            //       //           color: Colors.white,
-            //       //           size: 25,
-            //       //         ),
-            //       //       ),
-            //       //       SizedBox(
-            //       //         width: 6,
-            //       //       ),
-            //       //       Padding(
-            //       //         padding: const EdgeInsets.only(left: 10),
-            //       //         child: Container(
-            //       //           decoration: BoxDecoration(
-            //       //               border:
-            //       //                   Border.all(color: Colors.white, width: 1.5),
-            //       //               borderRadius:
-            //       //                   BorderRadius.all(Radius.circular(8))),
-            //       //           child: Padding(
-            //       //             padding: const EdgeInsets.all(6.0),
-            //       //             child: Icon(
-            //       //               Icons.format_align_left,
-            //       //               color: Colors.white,
-            //       //             ),
-            //       //           ),
-            //       //         ),
-            //       //       ),
-            //       //       Padding(
-            //       //         padding: const EdgeInsets.all(8.0),
-            //       //         child: Container(
-            //       //           decoration: BoxDecoration(
-            //       //               border:
-            //       //                   Border.all(color: Colors.white, width: 1.5),
-            //       //               borderRadius:
-            //       //                   BorderRadius.all(Radius.circular(8))),
-            //       //           child: Padding(
-            //       //             padding: const EdgeInsets.all(6.0),
-            //       //             child: Icon(
-            //       //               Icons.format_align_center,
-            //       //               color: Colors.white,
-            //       //             ),
-            //       //           ),
-            //       //         ),
-            //       //       ),
-            //       //       Padding(
-            //       //         padding: const EdgeInsets.only(right: 10),
-            //       //         child: Container(
-            //       //           decoration: BoxDecoration(
-            //       //               border:
-            //       //                   Border.all(color: Colors.white, width: 1.5),
-            //       //               borderRadius:
-            //       //                   BorderRadius.all(Radius.circular(8))),
-            //       //           child: Padding(
-            //       //             padding: const EdgeInsets.all(6.0),
-            //       //             child: Icon(
-            //       //               Icons.format_align_right,
-            //       //               color: Colors.white,
-            //       //             ),
-            //       //           ),
-            //       //         ),
-            //       //       ),
-            //       //       SizedBox(
-            //       //         width: 6,
-            //       //       ),
-            //       //       Column(
-            //       //         children: [
-            //       //           Padding(
-            //       //             padding: const EdgeInsets.only(right: 10),
-            //       //             child: Container(
-            //       //               decoration: BoxDecoration(
-            //       //                   border: Border.all(
-            //       //                       color: Colors.white, width: 1.5),
-            //       //                   borderRadius:
-            //       //                       BorderRadius.all(Radius.circular(8))),
-            //       //               child: Padding(
-            //       //                   padding: const EdgeInsets.all(6.0),
-            //       //                   child: Text(
-            //       //                     "Dublicate",
-            //       //                     style: TextStyle(color: Colors.white),
-            //       //                   )),
-            //       //             ),
-            //       //           ),
-            //       //           Padding(
-            //       //             padding: const EdgeInsets.only(right: 10, top: 6),
-            //       //             child: Container(
-            //       //               decoration: BoxDecoration(
-            //       //                   border: Border.all(
-            //       //                       color: Colors.white, width: 1.5),
-            //       //                   borderRadius:
-            //       //                       BorderRadius.all(Radius.circular(8))),
-            //       //               child: Padding(
-            //       //                   padding: const EdgeInsets.symmetric(
-            //       //                       vertical: 6, horizontal: 24),
-            //       //                   child: Text(
-            //       //                     "Edit",
-            //       //                     style: TextStyle(color: Colors.white),
-            //       //                   )),
-            //       //             ),
-            //       //           ),
-            //       //         ],
-            //       //       )
-            //       //     ],
-            //       //   ),
-            //       // )
-            //     ],
-            //   ),
-            // ),
-            // Container(
-            //   child: Column(
-            //     children: [
-            //       Row(
-            //         children: [
-            //           Container(
-            //             decoration: BoxDecoration(
-            //                 border: Border.all(
-            //                     color: Color(0xFFFEA500), width: 1.5),
-            //                 borderRadius:
-            //                     BorderRadius.all(Radius.circular(18))),
-            //             child: Padding(
-            //               padding: const EdgeInsets.all(4.0),
-            //               child: Text(
-            //                 "Hindi",
-            //                 style: TextStyle(color: Colors.white),
-            //               ),
-            //             ),
-            //           ),
-            //           Container(
-            //             decoration: BoxDecoration(
-            //                 border: Border.all(
-            //                     color: Color(0xFFFEA500), width: 1.5),
-            //                 borderRadius:
-            //                     BorderRadius.all(Radius.circular(18))),
-            //             child: Padding(
-            //               padding: const EdgeInsets.all(4.0),
-            //               child: Text(
-            //                 "Gujarati",
-            //                 style: TextStyle(color: Colors.white),
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       ),
-            //       Row(
-            //         children: [
-            //           Container(
+            // Column(
+            //   children: [
+            //     Row(
+            //       children: [
+            //         Container(
+            //           decoration: BoxDecoration(
+            //               border:
+            //                   Border.all(color: Color(0xFFFEA500), width: 1.5),
+            //               borderRadius: BorderRadius.all(Radius.circular(18))),
+            //           child: Padding(
+            //             padding: const EdgeInsets.all(4.0),
             //             child: Text(
-            //               "Font style 1",
+            //               "Light Mode",
             //               style: TextStyle(color: Colors.white),
             //             ),
             //           ),
-            //           Container(
+            //         ),
+            //         SizedBox(
+            //           width: 8,
+            //         ),
+            //         Container(
+            //           decoration: BoxDecoration(
+            //               border:
+            //                   Border.all(color: Color(0xFFFEA500), width: 1.5),
+            //               borderRadius: BorderRadius.all(Radius.circular(18))),
+            //           child: Padding(
+            //             padding: const EdgeInsets.all(4.0),
             //             child: Text(
-            //               "Font style 1",
+            //               "Dark Mode",
+            //               style: TextStyle(color: Colors.white),
             //             ),
-            //           )
-            //         ],
-            //       )
-            //     ],
-            //   ),
+            //           ),
+            //         ),
+            //         Container(
+            //           decoration: BoxDecoration(
+            //               border:
+            //                   Border.all(color: Colors.transparent, width: 1.5),
+            //               color: Color(0xFFFEA500),
+            //               borderRadius: BorderRadius.all(Radius.circular(18))),
+            //           child: Text(
+            //             "Light Mode",
+            //             style: TextStyle(color: Colors.white),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //     Container(
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(8.0),
+            //         child: SingleChildScrollView(
+            //           scrollDirection: Axis.horizontal,
+            //           child: Row(
+            //             children: [
+            //               for (int i = 0; i < 5; i++)
+            //                 Padding(
+            //                   padding: const EdgeInsets.only(left: 6),
+            //                   child: Container(
+            //                     decoration: BoxDecoration(
+            //                         border: Border.all(
+            //                             color: Color(0xFFFEA500), width: 1.5),
+            //                         borderRadius:
+            //                             BorderRadius.all(Radius.circular(0))),
+            //                     height: 80,
+            //                     child: Image.network(
+            //                         "https://image.similarpng.com/very-thumbnail/2021/06/Gold-decorative-picture-frame-isolated-on-transparent-background-PNG.png"),
+            //                   ),
+            //                 ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
             // ),
+
+            Container(
+              color: Color(0xFF252525),
+              child: Column(
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            texteditControlNo = 0;
+                            setState(() {});
+                          },
+                          child: Container(
+                            color: texteditControlNo == 0
+                                ? Color(0xFFFEA500)
+                                : Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Controls",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            texteditControlNo = 1;
+                            setState(() {});
+                          },
+                          child: Container(
+                            color: texteditControlNo == 1
+                                ? Color(0xFFFEA500)
+                                : Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Fonts",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            texteditControlNo = 2;
+                            setState(() {});
+                          },
+                          child: Container(
+                            color: texteditControlNo == 2
+                                ? Color(0xFFFEA500)
+                                : Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Colors",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            texteditControlNo = 3;
+                            setState(() {});
+                          },
+                          child: Container(
+                            color: texteditControlNo == 3
+                                ? Color(0xFFFEA500)
+                                : Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Space & opacity",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            texteditControlNo = 4;
+                            setState(() {});
+                          },
+                          child: Container(
+                            color: texteditControlNo == 4
+                                ? Color(0xFFFEA500)
+                                : Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Shadow",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            texteditControlNo = 5;
+                            setState(() {});
+                          },
+                          child: Container(
+                            color: texteditControlNo == 5
+                                ? Color(0xFFFEA500)
+                                : Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Bg",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            texteditControlNo = 6;
+                            setState(() {});
+                          },
+                          child: Container(
+                            color: texteditControlNo == 6
+                                ? Color(0xFFFEA500)
+                                : Colors.transparent,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "3D",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6, bottom: 6),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            posEmail['left'] = posEmail['left']! - 1;
+                            setState(() {});
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white, width: 1.5),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(18))),
+                            padding: EdgeInsets.all(0),
+                            child: Icon(
+                              Icons.arrow_left_rounded,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                posEmail['top'] = posEmail['top']! - 1;
+                                setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.white, width: 1.5),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(18))),
+                                  padding: EdgeInsets.all(0),
+                                  child: Icon(
+                                    Icons.arrow_drop_up,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                posEmail['top'] = posEmail['top']! + 1;
+                                setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.white, width: 1.5),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(18))),
+                                  padding: EdgeInsets.all(0),
+                                  child: Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        InkWell(
+                          onTap: () {
+                            posEmail['left'] = posEmail['left']! + 1;
+                            setState(() {});
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white, width: 1.5),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(18))),
+                            padding: EdgeInsets.all(0),
+                            child: Icon(
+                              Icons.arrow_right,
+                              color: Colors.white,
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            emailAlignment = TextAlign.left;
+                            setState(() {});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: emailAlignment == TextAlign.left
+                                      ? Color(0xFFFEA500)
+                                      : Colors.transparent,
+                                  border: Border.all(
+                                      color: Colors.white, width: 1.5),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Icon(
+                                  Icons.format_align_left,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            emailAlignment = TextAlign.center;
+                            setState(() {});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: emailAlignment == TextAlign.center
+                                      ? Color(0xFFFEA500)
+                                      : Colors.transparent,
+                                  border: Border.all(
+                                      color: Colors.white, width: 1.5),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Icon(
+                                  Icons.format_align_center,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            emailAlignment = TextAlign.right;
+                            setState(() {});
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: emailAlignment == TextAlign.right
+                                      ? Color(0xFFFEA500)
+                                      : Colors.transparent,
+                                  border: Border.all(
+                                      color: Colors.white, width: 1.5),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: Icon(
+                                  Icons.format_align_right,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 1.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8))),
+                                child: Padding(
+                                    padding: const EdgeInsets.all(6.0),
+                                    child: Text(
+                                      "Dublicate",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10, top: 6),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 1.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8))),
+                                child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 6, horizontal: 24),
+                                    child: Text(
+                                      "Edit",
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //           color: Color(0xFFFEA500), width: 1.5),
+                      //       borderRadius:
+                      //           BorderRadius.all(Radius.circular(18))),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(4.0),
+                      //     child: Text(
+                      //       "Hindi",
+                      //       style: TextStyle(color: Colors.white),
+                      //     ),
+                      //   ),
+                      // ),
+                      // Container(
+                      //   decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //           color: Color(0xFFFEA500), width: 1.5),
+                      //       borderRadius:
+                      //           BorderRadius.all(Radius.circular(18))),
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(4.0),
+                      //     child: Text(
+                      //       "Gujarati",
+                      //       style: TextStyle(color: Colors.white),
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      // Container(
+                      //   child: Text(
+                      //     "Font style 1",
+                      //     style: TextStyle(color: Colors.white),
+                      //   ),
+                      // ),
+                      // Container(
+                      //   child: Text(
+                      //     "Font style 1",
+                      //   ),
+                      // )
+                    ],
+                  )
+                ],
+              ),
+            ),
             // Container(
             //   child: Row(
             //     mainAxisSize: MainAxisSize.min,
