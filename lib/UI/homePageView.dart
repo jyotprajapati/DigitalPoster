@@ -1,3 +1,4 @@
+import 'package:dposter/Models/categoryFrameModel.dart';
 import 'package:dposter/UI/frameSelectionView.dart';
 import 'package:dposter/UI/myBusinessView.dart';
 import 'package:dposter/UI/myPostView.dart';
@@ -22,9 +23,20 @@ class HomePageView extends StatefulWidget {
 
 class _HomePageViewState extends State<HomePageView> {
   List<CategoryModel>? categories;
+  List<CategoryFramesModel> categoryFrames = [];
   getCategories() async {
     categories = await HomepageServices().getCategories();
+    for (int i = 0; i < categories!.length; i++) {
+      getCategoriesFrames(id: categories![i].id!);
+      print("$categoryFrames adaf");
+    }
     setState(() {});
+  }
+
+  getCategoriesFrames({required int id}) async {
+    CategoryFramesModel res =
+        await HomepageServices().getCategoryFrames(categoryNumber: id);
+    categoryFrames.add(res);
   }
 
   @override

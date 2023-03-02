@@ -1,6 +1,8 @@
+import 'package:dposter/Models/dragableImagesModel.dart';
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:text_style_editor/text_style_editor.dart';
 
 class PosterPreview extends StatefulWidget {
@@ -29,24 +31,8 @@ class _PosterPreviewState extends State<PosterPreview> {
   double _emailScale = 1.0;
   int? texteditControlNo;
 
-  List<String> fonts = [
-    'Billabong',
-    'AlexBrush',
-    'Allura',
-    'Arizonia',
-    'ChunkFive',
-    'GrandHotel',
-    'GreatVibes',
-    'Lobster',
-    'OpenSans',
-    'OstrichSans',
-    'Oswald',
-    'Pacifico',
-    'Quicksand',
-    'Roboto',
-    'SEASRN',
-    'Windsong',
-  ];
+  int selectedlan = 0;
+  int selectedImageNo = 0;
 
   List<Color> paletteColors = [
     Colors.black,
@@ -76,6 +62,13 @@ class _PosterPreviewState extends State<PosterPreview> {
     fontFamily: 'OpenSans',
   );
   TextAlign textAlign = TextAlign.left;
+
+  List imagesInPic = [];
+
+  getImagesInPoster() {
+    imagesInPic.add(
+        DragableImagesModel(url: "assets/logo.png", leftPos: 60, topPos: 60));
+  }
 
   @override
   void initState() {
@@ -358,6 +351,221 @@ class _PosterPreviewState extends State<PosterPreview> {
             //     ),
             //   ],
             // ),
+
+            Container(
+                color: Color(0xFF252525),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                texteditControlNo = 0;
+                                setState(() {});
+                              },
+                              child: Container(
+                                color: texteditControlNo == 0
+                                    ? Color(0xFFFEA500)
+                                    : Colors.transparent,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Controls",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                texteditControlNo = 1;
+                                setState(() {});
+                              },
+                              child: Container(
+                                color: texteditControlNo == 1
+                                    ? Color(0xFFFEA500)
+                                    : Colors.transparent,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Color and Opacity",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                texteditControlNo = 2;
+                                setState(() {});
+                              },
+                              child: Container(
+                                color: texteditControlNo == 2
+                                    ? Color(0xFFFEA500)
+                                    : Colors.transparent,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "3D",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 6, bottom: 6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 8,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                posLogo['left'] = posLogo['left']! - 1;
+                                setState(() {});
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 1.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(18))),
+                                padding: EdgeInsets.all(0),
+                                child: Icon(
+                                  Icons.arrow_left_rounded,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    posLogo['top'] = posLogo['top']! - 1;
+                                    setState(() {});
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.white, width: 1.5),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(18))),
+                                      padding: EdgeInsets.all(0),
+                                      child: Icon(
+                                        Icons.arrow_drop_up,
+                                        color: Colors.white,
+                                        size: 25,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    posLogo['top'] = posLogo['top']! + 1;
+                                    setState(() {});
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Colors.white, width: 1.5),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(18))),
+                                      padding: EdgeInsets.all(0),
+                                      child: Icon(
+                                        Icons.arrow_drop_down,
+                                        color: Colors.white,
+                                        size: 25,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            InkWell(
+                              onTap: () {
+                                posLogo['left'] = posLogo['left']! + 1;
+                                setState(() {});
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.white, width: 1.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(18))),
+                                padding: EdgeInsets.all(0),
+                                child: Icon(
+                                  Icons.arrow_right,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.white, width: 1.5),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8))),
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 6, horizontal: 24),
+                                        child: Text(
+                                          "Dublicate",
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: 10, top: 6),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.white, width: 1.5),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8))),
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 6, horizontal: 10),
+                                        child: Text(
+                                          "Change Image",
+                                          style: TextStyle(color: Colors.white),
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ])),
 
             Container(
               color: Color(0xFF252525),
@@ -765,19 +973,84 @@ class _PosterPreviewState extends State<PosterPreview> {
                       // ),
                     ],
                   ),
-                  Row(
+                  Column(
                     children: [
-                      // Container(
-                      //   child: Text(
-                      //     "Font style 1",
-                      //     style: TextStyle(color: Colors.white),
-                      //   ),
-                      // ),
-                      // Container(
-                      //   child: Text(
-                      //     "Font style 1",
-                      //   ),
-                      // )
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              selectedlan = 0;
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Color(0xFFFEA500), width: 1.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Text(
+                                    "English",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "Gujarati",
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "Hindi & Marathi",
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "Tamil",
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "Kannad",
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                "English",
+                                style: GoogleFonts.alegreya(
+                                  textStyle: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Text(
+                                "English",
+                                style: GoogleFonts.aguafinaScript(
+                                  textStyle: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   )
                 ],
