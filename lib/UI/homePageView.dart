@@ -11,6 +11,7 @@ import 'package:dposter/services/homepageServices.dart';
 import 'package:flutter/material.dart';
 
 import '../Models/categoryModel.dart';
+import '../Models/customCategoryModel.dart';
 import '../Widgets/backgoundWidget.dart';
 import '../Widgets/popUpMenuWidget.dart';
 
@@ -23,26 +24,33 @@ class HomePageView extends StatefulWidget {
 
 class _HomePageViewState extends State<HomePageView> {
   List<CategoryModel>? categories;
+  List<CustomCategoryModel>? customCategories;
   List<CategoryFramesModel> categoryFrames = [];
   getCategories() async {
     categories = await HomepageServices().getCategories();
     for (int i = 0; i < categories!.length; i++) {
-      getCategoriesFrames(id: categories![i].id!);
+      // getCategoriesFrames(id: categories![i].id!);
       print("$categoryFrames adaf");
     }
     setState(() {});
   }
 
-  getCategoriesFrames({required int id}) async {
-    CategoryFramesModel res =
-        await HomepageServices().getCategoryFrames(categoryNumber: id);
-    categoryFrames.add(res);
+  getCustomCategories() async {
+    customCategories = await HomepageServices().getCustomCategories();
+    setState(() {});
   }
+
+  // getCategoriesFrames({required int id}) async {
+  //   CategoryFramesModel res =
+  //       await HomepageServices().getCategoryFrames(categoryNumber: id);
+  //   categoryFrames.add(res);
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getCustomCategories();
     getCategories();
   }
 
@@ -163,6 +171,61 @@ class _HomePageViewState extends State<HomePageView> {
                         ],
                       ),
                     ),
+                    for (int i = 0; i < customCategories!.length; i++)
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "${customCategories![i].title}",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w900),
+                                ),
+                                Spacer(),
+                                const Text(
+                                  "More >",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              // scrollDirection: Axis.horizontal,
+                              children: [
+                                for (int i = 0;
+                                    i < customCategories!.length;
+                                    i++)
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8, horizontal: 8),
+                                    child: Container(
+                                      height: 130,
+                                      width: 110,
+                                      child: Image.network(
+                                          "${customCategories![i].image}"),
+                                      decoration: BoxDecoration(
+                                          color: const Color(0xFFD9D9D9),
+                                          border: Border.all(
+                                            color: const Color(0xFFD9D9D9),
+                                          ),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(12))),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     for (int i = 0; i < categories!.length; i++)
                       Column(
                         children: [

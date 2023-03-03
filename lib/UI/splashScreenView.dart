@@ -1,5 +1,8 @@
+import 'package:dposter/UI/basePageView.dart';
+import 'package:dposter/UI/homePageView.dart';
 import 'package:dposter/UI/signUpView.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});
@@ -9,17 +12,32 @@ class SplashScreenView extends StatefulWidget {
 }
 
 class _SplashScreenViewState extends State<SplashScreenView> {
+  getLoggedInDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getString('userId');
+    return userId;
+  }
+
   @override
-  void initState() {
+  void initState() async {
     // TODO: implement initState
     super.initState();
-
-    new Future.delayed(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SignUpView()),
-            ));
+    var userId = getLoggedInDetails();
+    if (userId == null) {
+      new Future.delayed(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => SignUpView()),
+              ));
+    } else {
+      new Future.delayed(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => BasePageView()),
+              ));
+    }
   }
 
   @override

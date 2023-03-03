@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../Widgets/backgoundWidget.dart';
 import '../Widgets/buttonWidegets.dart';
 import '../Widgets/textfieldWidgets.dart';
+import '../services/authenticationServices.dart';
 import 'basePageView.dart';
 
 class SignInView extends StatefulWidget {
@@ -16,6 +17,16 @@ class SignInView extends StatefulWidget {
 
 class _SignInViewState extends State<SignInView> {
   final _formKey = new GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordlController = TextEditingController();
+  bool showAuthError = false;
+
+  Future<bool> emailLogin() async {
+    bool res = await AuthenticationServices().emailLogin(
+        email: emailController.text, password: passwordlController.text);
+    return res;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -66,7 +77,16 @@ class _SignInViewState extends State<SignInView> {
                                 const SizedBox(
                                   height: 12,
                                 ),
+                                showAuthError
+                                    ? Text(
+                                        "E-mail Address and Password is not valid.",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 14),
+                                      )
+                                    : Container(),
                                 TextfieldWidgets().textfieldWidgets(
+                                  controller: emailController,
                                   labelText: "Username",
                                   validator: (value) {
                                     if (value == null ||
@@ -79,6 +99,7 @@ class _SignInViewState extends State<SignInView> {
                                 ),
                                 TextfieldWidgets().textfieldWidgets(
                                   labelText: "Password",
+                                  controller: passwordlController,
                                   password: true,
                                   validator: (value) {
                                     if (value == null ||
@@ -91,14 +112,24 @@ class _SignInViewState extends State<SignInView> {
                                 ),
                                 ButtonWidgets().normalButton(
                                     displayText: "Sign In",
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (_formKey.currentState!.validate()) {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BasePageView()));
-                                      } else {}
+                                        bool res = await emailLogin();
+
+                                        if (res) {
+                                          showAuthError = false;
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BasePageView()));
+                                        } else {
+                                          showAuthError = true;
+                                        }
+                                      } else {
+                                        showAuthError = false;
+                                      }
+                                      setState(() {});
                                     }),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
