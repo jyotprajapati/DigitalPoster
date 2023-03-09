@@ -69,4 +69,27 @@ class HomepageServices {
       throw Exception('Failed to load data');
     }
   }
+
+  Future<CategoryFramesModel> getCustomCategoryFrames(
+      {required int categoryNumber}) async {
+    try {
+      String endPoint = "public/get_custom_category_frames";
+      var apiUrl = Uri.parse(baseUrl + endPoint);
+      var response = await http.post(apiUrl, body: {
+        "category_id": "$categoryNumber",
+      });
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        print(jsonResponse['data'][0]);
+        CategoryFramesModel categoryFrames = jsonResponse['data'][0]
+            .map((json) => CategoryFramesModel.fromJson(json));
+        print(categoryFrames);
+        return categoryFrames;
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      throw Exception('Failed to load data');
+    }
+  }
 }
